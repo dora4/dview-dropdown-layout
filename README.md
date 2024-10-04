@@ -1,5 +1,5 @@
-dview-dropdownlayout
-![Release](https://jitpack.io/v/dora4/dview-dropdownlayout.svg)
+dview-dropdown-layout
+![Release](https://jitpack.io/v/dora4/dview-dropdown-layout.svg)
 --------------------------------
 
 #### Gradle依赖配置
@@ -13,6 +13,6 @@ allprojects {
 }
 // 添加以下代码到app模块的build.gradle
 dependencies {
-    implementation 'com.github.dora4:dview-dropdownlayout:1.0'
+    implementation 'com.github.dora4:dview-dropdown-layout:1.1'
 }
 ```
