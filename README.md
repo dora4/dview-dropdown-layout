@@ -3,8 +3,7 @@ dview-dropdown-layout
 --------------------------------
 
 #### 卡片
-
-![DORA视图 符文图腾](https://github.com/user-attachments/assets/830e2963-1a61-466e-a499-8c4ff48d5e54)
+![DORA视图 地动八方镜](https://github.com/user-attachments/assets/6c79ebf9-bda9-402d-9ee4-29d4e7ed1eaa)
 
 #### Gradle依赖配置
 
