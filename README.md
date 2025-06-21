@@ -2,6 +2,10 @@ dview-dropdown-layout
 ![Release](https://jitpack.io/v/dora4/dview-dropdown-layout.svg)
 --------------------------------
 
+#### 卡片
+
+![DORA视图 符文图腾](https://github.com/user-attachments/assets/830e2963-1a61-466e-a499-8c4ff48d5e54)
+
 #### Gradle依赖配置
 
 ```groovy
