@@ -24,8 +24,9 @@ class DropDownLayout @JvmOverloads constructor(
 
     fun setDropDownView(dropDownView: View): DropDownLayout {
         this.dropDownView = dropDownView
+        dropDownView.visibility = View.GONE
         dropDownView.setOnTouchListener { v, event -> true }    // 防止事件透传到阴影层导致取消
-        addView(dropDownView, childCount - 1) // 保证在 shadowLayer 上面
+        addView(dropDownView)
         return this
     }
 
