@@ -51,9 +51,9 @@ class DropDownLayout @JvmOverloads constructor(
 
     fun showShadowLayer() {
         if (!shadowShown && shadowLayer != null) {
+            val animation = AnimationUtils.loadAnimation(context, R.anim.anim_alpha_in)
+            shadowLayer!!.startAnimation(animation)
             shadowLayer!!.visibility = VISIBLE
-            shadowLayer!!.animation =
-                AnimationUtils.loadAnimation(context, R.anim.anim_alpha_in)
             shadowShown = true
         }
     }
@@ -75,6 +75,10 @@ class DropDownLayout @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        if (childCount > 0) {
+            dropDownView = getChildAt(0)
+            dropDownView?.visibility = GONE
+        }
         addShadowLayer(context)
     }
 
@@ -88,15 +92,14 @@ class DropDownLayout @JvmOverloads constructor(
             visibility = INVISIBLE
             setOnTouchListener(this@DropDownLayout)
         }
-        addView(shadowLayer, 0) // 保证在最底层
+        addView(shadowLayer)
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP) {
             shadowLayer?.let { onShadowClickListener?.onClickShadow(it) }
-            return true
         }
-        return false
+        return true // 阴影层完全拦截
     }
 
     interface OnShadowClickListener {
