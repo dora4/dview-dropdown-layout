@@ -6,11 +6,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import dora.widget.dropdownlayout.R
 
-open class DropDownLayout @JvmOverloads constructor(
+class DropDownLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -35,20 +36,20 @@ open class DropDownLayout @JvmOverloads constructor(
     }
 
     fun showDropDownView() {
-        if (dropDownView != null) {
+        dropDownView?.let {
             showShadowLayer()
-            addView(dropDownView)
+            it.visibility = VISIBLE
         }
     }
 
     fun hideDropDownView() {
-        if (dropDownView != null) {
+        dropDownView?.let {
             hideShadowLayer()
-            removeView(dropDownView)
+            it.visibility = GONE
         }
     }
 
-    open fun showShadowLayer() {
+    fun showShadowLayer() {
         if (!shadowShown && shadowLayer != null) {
             shadowLayer!!.visibility = VISIBLE
             shadowLayer!!.animation =
@@ -57,11 +58,17 @@ open class DropDownLayout @JvmOverloads constructor(
         }
     }
 
-    open fun hideShadowLayer() {
+    fun hideShadowLayer() {
         if (shadowShown && shadowLayer != null) {
             val animation = AnimationUtils.loadAnimation(context, R.anim.anim_alpha_out)
-            shadowLayer!!.animation = animation
-            shadowLayer!!.visibility = INVISIBLE
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationEnd(animation: Animation?) {
+                    shadowLayer?.visibility = INVISIBLE
+                }
+                override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {}
+            })
+            shadowLayer!!.startAnimation(animation)
             shadowShown = false
         }
     }
@@ -72,22 +79,24 @@ open class DropDownLayout @JvmOverloads constructor(
     }
 
     private fun addShadowLayer(context: Context) {
-        shadowLayer = View(context)
-        shadowLayer!!.layoutParams = LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        shadowLayer!!.setBackgroundColor(DEFAULT_SHADOW_COLOR)
-        shadowLayer!!.visibility = INVISIBLE
-        shadowLayer!!.setOnTouchListener(this)
-        addView(shadowLayer)
+        shadowLayer = View(context).apply {
+            layoutParams = LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            setBackgroundColor(DEFAULT_SHADOW_COLOR)
+            visibility = INVISIBLE
+            setOnTouchListener(this@DropDownLayout)
+        }
+        addView(shadowLayer, 0) // 保证在最底层
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (shadowLayer != null) {
-            onShadowClickListener?.onClickShadow(shadowLayer!!)
+        if (event.action == MotionEvent.ACTION_UP) {
+            shadowLayer?.let { onShadowClickListener?.onClickShadow(it) }
+            return true
         }
-        return true
+        return false
     }
 
     interface OnShadowClickListener {
