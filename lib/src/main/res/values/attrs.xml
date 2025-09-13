@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <declare-styleable name="DropDownLayout">
+        <attr name="dview_ddl_shadowColor" format="color"/>
+    </declare-styleable>
+</resources>
