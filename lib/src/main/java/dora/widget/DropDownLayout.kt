@@ -25,7 +25,8 @@ class DropDownLayout @JvmOverloads constructor(
     fun setDropDownView(dropDownView: View): DropDownLayout {
         this.dropDownView = dropDownView
         dropDownView.visibility = GONE
-        addView(dropDownView) // 把它真正加到布局里
+        dropDownView.setOnTouchListener { v, event -> true }    // 防止事件透传到阴影层导致取消
+        addView(dropDownView, childCount - 1) // 保证在 shadowLayer 上面
         return this
     }
 
@@ -77,10 +78,6 @@ class DropDownLayout @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        if (childCount > 0) {
-            dropDownView = getChildAt(0)
-            dropDownView?.visibility = GONE
-        }
         addShadowLayer(context)
     }
 
