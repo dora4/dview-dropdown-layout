@@ -25,5 +25,5 @@ dependencyResolutionManagement {
         maven { url "https://jitpack.io" }
     }
 }
-rootProject.name = "dview-dropdownlayout"
+rootProject.name = "dview-dropdown-layout"
 include ':lib'
