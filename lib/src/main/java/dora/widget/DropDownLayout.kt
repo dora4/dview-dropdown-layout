@@ -24,6 +24,8 @@ class DropDownLayout @JvmOverloads constructor(
 
     fun setDropDownView(dropDownView: View): DropDownLayout {
         this.dropDownView = dropDownView
+        dropDownView.visibility = GONE
+        addView(dropDownView) // 把它真正加到布局里
         return this
     }
 
