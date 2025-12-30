@@ -6,11 +6,10 @@ plugins {
 
 android {
     namespace = "dora.widget.dropdownlayout"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
     }
     buildTypes {
         release {
